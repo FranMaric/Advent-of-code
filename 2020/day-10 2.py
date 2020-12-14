@@ -1,22 +1,11 @@
 f = open('input.txt', 'r')
-jolts = list(map(int, f.read().split('\n')))
+adapters = [0] + sorted(list(map(int, f.read().split('\n'))))
 f.close()
 
-jolts = sorted(jolts)
+x = [1] + [0 for _ in range(max(adapters))]
+for i in adapters:
+    for j in range(1, 3+1):
+        if i - j in adapters:
+            x[i] += x[i-j]
 
-memo = {}
-
-
-def recursion(index):
-    if index == len(jolts)-1:
-        return True
-
-    for i in range(1, 4):
-        if jolts[index]+i in jolts:
-            recursion(jolts.index(jolts[index]+i))
-
-
-output = recursion(0)
-
-
-print(output)
+print(x[-1])
